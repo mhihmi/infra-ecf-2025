@@ -5,19 +5,7 @@ terraform {
       version = "~> 5.45.0"
     }
   }
-  required_version = "~> 1.9.8"
-}
-
-variable "aws_profile" {
-  description = "The AWS profile to use"
-  type        = string
-  default     = "default"
-}
-
-variable "aws_region" {
-  description = "The AWS region to use"
-  type        = string
-  default     = "us-west-2"
+  required_version = "~> 1.11.4"
 }
 
 provider "aws" {
@@ -28,6 +16,7 @@ provider "aws" {
 module "s3" {
   source = "./modules/s3"
 
-  bucket_name = "ecf2025_storage"
-  environment = "dev"
+  bucket_name = var.bucket_name
+  environment = var.environment
+  sso_role_arn = var.sso_role_arn
 }
