@@ -17,3 +17,8 @@ variable "instance_name" {
   description = "The name tag for the EC2 instance"
   type        = string
 }
+
+variable "subnet_id" {
+  description = "The ID of the subnet where the instance will be deployed"
+  type        = string
+}

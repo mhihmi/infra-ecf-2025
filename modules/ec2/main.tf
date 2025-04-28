@@ -2,6 +2,7 @@ resource "aws_instance" "this" {
   ami           = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name
+  subnet_id     = var.subnet_id  # Reference the public subnet ID from the VPC module
 
   user_data = <<-EOF
     #!/bin/bash

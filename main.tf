@@ -28,4 +28,13 @@ module "ec2" {
   instance_type  = var.instance_type
   key_name       = var.key_name
   instance_name  = var.instance_name
+  subnet_id      = "subnet-07294a34e81639bd7" # Reference the public subnet ID from the VPC module
+}
+
+module "vpc" {
+  source = "./modules/vpc"
+
+  vpc_cidr          = "10.0.0.0/16"
+  public_subnet_cidr = "10.0.1.0/24"
+  vpc_name          = "ecf2025-vpc"
 }
