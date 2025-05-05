@@ -11,6 +11,11 @@ resource "aws_db_instance" "mysql" {
   vpc_security_group_ids = [var.security_group_id]
   db_subnet_group_name = aws_db_subnet_group.mysql.name
 
+  # set a final snapshot before deletion  
+  # final_snapshot_identifier = "${var.db_name}-final-snapshot"
+  # or keep it true to skip final snapshot
+  skip_final_snapshot = true
+
   tags = {
     Name = var.db_name
   }
