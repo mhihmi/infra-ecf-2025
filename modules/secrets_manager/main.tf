@@ -1,5 +1,17 @@
+resource "random_pet" "suffix" {
+  length = 2
+}
+
+resource "time_static" "now" {}
+
+locals {
+  secret_name_prefix = "yourmediadb/mysql/${random_pet.suffix.id}-${time_static.now.unix}"
+  db_password_secret_name = "${local.secret_name_prefix}-password"
+  db_username_secret_name = "${local.secret_name_prefix}-username"
+}
+
 resource "aws_secretsmanager_secret" "db_password" {
-  name = "yourmedia/mysql/password"
+  name = local.db_password_secret_name
 }
 
 resource "aws_secretsmanager_secret_version" "db_password_version" {
@@ -8,7 +20,7 @@ resource "aws_secretsmanager_secret_version" "db_password_version" {
 }
 
 resource "aws_secretsmanager_secret" "db_username" {
-  name = "yourmedia/mysql/username"
+  name = local.db_username_secret_name 
 }
 
 resource "aws_secretsmanager_secret_version" "db_username_version" {

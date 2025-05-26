@@ -4,6 +4,14 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.45.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.7.2"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = "~> 0.13.1"
+    }
   }
   required_version = "~> 1.12.1"
 }
@@ -21,13 +29,13 @@ module "secrets_manager" {
 
 # Fetch username from Secrets Manager
 data "aws_secretsmanager_secret_version" "db_username" {
-  secret_id = "yourmedia/mysql/username"
+  secret_id  = module.secrets_manager.db_username_secret_name
   depends_on = [module.secrets_manager]
 }
 
 # Fetch password from Secrets Manager
 data "aws_secretsmanager_secret_version" "db_password" {
-  secret_id = "yourmedia/mysql/password"
+  secret_id  = module.secrets_manager.db_password_secret_name
   depends_on = [module.secrets_manager]
 }
 
