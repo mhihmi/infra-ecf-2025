@@ -26,6 +26,7 @@ variable "username" {
 variable "password" {
   description = "The master password for the database"
   type        = string
+  sensitive = true
 }
 
 variable "parameter_group_name" {
