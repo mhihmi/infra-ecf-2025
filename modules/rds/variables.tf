@@ -23,12 +23,6 @@ variable "username" {
   type        = string
 }
 
-variable "password" {
-  description = "The master password for the database"
-  type        = string
-  sensitive = true
-}
-
 variable "parameter_group_name" {
   description = "The parameter group name for the database"
   type        = string

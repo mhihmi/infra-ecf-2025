@@ -23,19 +23,12 @@ provider "aws" {
 
 module "secrets_manager" {
   source      = "./modules/secrets_manager"
-  db_password = var.db_password
   db_username = var.db_username
 }
 
 # Fetch username from Secrets Manager
 data "aws_secretsmanager_secret_version" "db_username" {
   secret_id  = module.secrets_manager.db_username_secret_name
-  depends_on = [module.secrets_manager]
-}
-
-# Fetch password from Secrets Manager
-data "aws_secretsmanager_secret_version" "db_password" {
-  secret_id  = module.secrets_manager.db_password_secret_name
   depends_on = [module.secrets_manager]
 }
 
@@ -77,7 +70,6 @@ module "rds" {
   instance_class       = "db.t3.micro"
   db_name              = var.db_name
   username             = data.aws_secretsmanager_secret_version.db_username.secret_string
-  password             = data.aws_secretsmanager_secret_version.db_password.secret_string
   parameter_group_name = "default.mysql8.0"
   security_group_id    = module.vpc.mysql_security_group_id
   subnet_ids           = module.vpc.public_subnet_ids

@@ -5,7 +5,7 @@ resource "aws_db_instance" "mysql" {
   instance_class       = var.instance_class
   identifier           = var.db_name
   username             = var.username
-  password             = var.password
+  manage_master_user_password = true
   parameter_group_name = var.parameter_group_name
   publicly_accessible  = false
   vpc_security_group_ids = [var.security_group_id]
