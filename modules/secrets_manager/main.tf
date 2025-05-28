@@ -4,6 +4,7 @@ resource "random_pet" "suffix" {
 
 resource "time_static" "now" {}
 
+# Change secret name to include different prefix and a timestamp on each apply
 locals {
   secret_name_prefix = "yourmediadb/mysql/${random_pet.suffix.id}-${time_static.now.unix}"
   db_password_secret_name = "${local.secret_name_prefix}-password"

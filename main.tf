@@ -39,10 +39,6 @@ data "aws_secretsmanager_secret_version" "db_password" {
   depends_on = [module.secrets_manager]
 }
 
-data "aws_rds_engine_version" "mysql" {
-  engine = "mysql"
-}
-
 module "s3" {
   source = "./modules/s3"
 
@@ -67,6 +63,10 @@ module "vpc" {
   vpc_cidr            = "10.0.0.0/16"
   public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"] # list required
   vpc_name            = "ecf2025-vpc"
+}
+
+data "aws_rds_engine_version" "mysql" {
+  engine = "mysql"
 }
 
 module "rds" {
