@@ -32,7 +32,7 @@ module "ec2" {
   instance_type  = var.instance_type
   key_name       = var.key_name
   instance_name  = var.instance_name
-  subnet_id      = "subnet-07294a34e81639bd7" # Reference the public subnet ID from the VPC module
+  subnet_id      = module.vpc.public_subnet_id[0] # Use the first public subnet from VPC module
 }
 
 module "vpc" {
