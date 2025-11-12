@@ -1,0 +1,66 @@
+# ============================================
+# Terraform Variables - Example Configuration
+# ============================================
+# Ce fichier sert de template pour terraform.tfvars
+# Copier ce fichier vers terraform.tfvars et remplir avec vos valeurs réelles
+
+# --------------------------------------------
+# AWS Configuration
+# --------------------------------------------
+
+# Profil AWS CLI à utiliser (configuré dans ~/.aws/credentials)
+aws_profile = "dev"
+
+# Région AWS de déploiement
+aws_region = "eu-west-3"  # Paris
+
+# --------------------------------------------
+# S3 Configuration
+# --------------------------------------------
+
+# Nom unique du bucket S3 (doit être globalement unique)
+bucket_name = "your-unique-bucket-name"
+
+# Environnement (dev, staging, prod)
+environment = "dev"
+
+# ARN du rôle IAM SSO autorisé à accéder au bucket S3
+# Format: arn:aws:iam::ACCOUNT_ID:role/ROLE_NAME
+sso_role_arn = "arn:aws:iam::YOUR_ACCOUNT_ID:role/YOUR_ROLE_NAME"
+
+# --------------------------------------------
+# EC2 Configuration
+# --------------------------------------------
+
+# ID de l'AMI à utiliser pour l'instance EC2
+# Amazon Linux 2023 pour eu-west-3: ami-00ac45f3035ff009e
+# Ubuntu 22.04 LTS pour eu-west-3: ami-05b5a865c3579bbc4
+ami_id = "ami-00ac45f3035ff009e"
+
+# Type d'instance EC2
+instance_type = "t2.micro"
+
+# Nom de la paire de clés SSH (doit exister dans AWS)
+key_name = "your-key-pair-name"
+
+# Nom de l'instance EC2 (tag Name)
+instance_name = "Tomcat-Server"
+
+# --------------------------------------------
+# RDS Configuration
+# --------------------------------------------
+
+# Nom de la base de données MySQL
+db_name = "mysqldb"
+
+# Nom d'utilisateur master de la base de données
+db_username = "admin"
+
+# IMPORTANT: Le mot de passe ne doit JAMAIS être stocké dans ce fichier
+# Il sera demandé lors de l'exécution de terraform apply
+# Exigences du mot de passe:
+#   - Minimum 8 caractères
+#   - Maximum 41 caractères
+#   - Peut contenir: lettres, chiffres, caractères spéciaux
+#   - Ne peut PAS contenir: /, ", @, ou espace
+# db_password sera demandé de manière interactive

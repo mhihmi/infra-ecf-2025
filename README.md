@@ -4,3 +4,12 @@
 
 1. Écrivez le code qui permet la création de vm (ex. : ec2), service de stockage (ex. : s3). Vous pouvez utiliser Terraform, cloudformation, etc. selon votre choix de cloud.
 2. Configurez une base de données as a service mysql.
+
+## Configuration
+
+1. Copiez le fichier d'exemple :
+   ```bash
+   cp terraform.tfvars.example terraform.tfvars
+   ```
+
+2. Modifiez le fichier `terraform.tfvars` pour y inclure vos propres valeurs.
