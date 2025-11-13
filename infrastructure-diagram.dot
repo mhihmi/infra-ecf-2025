@@ -1,0 +1,53 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  "data.aws_rds_engine_version.mysql" [label="data.aws_rds_engine_version.mysql"];
+  subgraph "cluster_module.ec2" {
+    label = "module.ec2"
+    fontname = "sans-serif"
+    "module.ec2.aws_instance.this" [label="aws_instance.this"];
+  }
+  subgraph "cluster_module.rds" {
+    label = "module.rds"
+    fontname = "sans-serif"
+    "module.rds.aws_db_instance.mysql" [label="aws_db_instance.mysql"];
+    "module.rds.aws_db_subnet_group.mysql" [label="aws_db_subnet_group.mysql"];
+  }
+  subgraph "cluster_module.s3" {
+    label = "module.s3"
+    fontname = "sans-serif"
+    "module.s3.aws_s3_bucket.this" [label="aws_s3_bucket.this"];
+    "module.s3.aws_s3_bucket_acl.this" [label="aws_s3_bucket_acl.this"];
+    "module.s3.aws_s3_bucket_ownership_controls.this" [label="aws_s3_bucket_ownership_controls.this"];
+    "module.s3.aws_s3_bucket_policy.this" [label="aws_s3_bucket_policy.this"];
+    "module.s3.aws_s3_bucket_public_access_block.this" [label="aws_s3_bucket_public_access_block.this"];
+  }
+  subgraph "cluster_module.vpc" {
+    label = "module.vpc"
+    fontname = "sans-serif"
+    "module.vpc.data.aws_availability_zones.available" [label="data.aws_availability_zones.available"];
+    "module.vpc.aws_internet_gateway.this" [label="aws_internet_gateway.this"];
+    "module.vpc.aws_route_table.public" [label="aws_route_table.public"];
+    "module.vpc.aws_route_table_association.public" [label="aws_route_table_association.public"];
+    "module.vpc.aws_security_group.mysql" [label="aws_security_group.mysql"];
+    "module.vpc.aws_subnet.public" [label="aws_subnet.public"];
+    "module.vpc.aws_vpc.this" [label="aws_vpc.this"];
+  }
+  "module.ec2.aws_instance.this" -> "module.vpc.aws_subnet.public";
+  "module.rds.aws_db_instance.mysql" -> "data.aws_rds_engine_version.mysql";
+  "module.rds.aws_db_instance.mysql" -> "module.rds.aws_db_subnet_group.mysql";
+  "module.rds.aws_db_instance.mysql" -> "module.vpc.aws_security_group.mysql";
+  "module.rds.aws_db_subnet_group.mysql" -> "module.vpc.aws_subnet.public";
+  "module.s3.aws_s3_bucket_acl.this" -> "module.s3.aws_s3_bucket_ownership_controls.this";
+  "module.s3.aws_s3_bucket_acl.this" -> "module.s3.aws_s3_bucket_public_access_block.this";
+  "module.s3.aws_s3_bucket_ownership_controls.this" -> "module.s3.aws_s3_bucket.this";
+  "module.s3.aws_s3_bucket_policy.this" -> "module.s3.aws_s3_bucket.this";
+  "module.s3.aws_s3_bucket_public_access_block.this" -> "module.s3.aws_s3_bucket.this";
+  "module.vpc.aws_internet_gateway.this" -> "module.vpc.aws_vpc.this";
+  "module.vpc.aws_route_table.public" -> "module.vpc.aws_internet_gateway.this";
+  "module.vpc.aws_route_table_association.public" -> "module.vpc.aws_route_table.public";
+  "module.vpc.aws_route_table_association.public" -> "module.vpc.aws_subnet.public";
+  "module.vpc.aws_security_group.mysql" -> "module.vpc.aws_vpc.this";
+  "module.vpc.aws_subnet.public" -> "module.vpc.data.aws_availability_zones.available";
+  "module.vpc.aws_subnet.public" -> "module.vpc.aws_vpc.this";
+}
